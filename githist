@@ -1,6 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
+import itertools
+import re
 import subprocess
+
+
+def pairwise(x):
+    a, b = itertools.tee(x)
+    next(b, None)
+    return zip(a, b)
 
 
 r = subprocess.run(
@@ -11,15 +19,11 @@ r = subprocess.run(
 )
 r.check_returncode()
 
-moving_from = {
-    (line_parts := l.split(": ", maxsplit=1))[1]
-    .split(": ", maxsplit=1)[1]
-    .split(" ")[-1]: line_parts[0]
-    .split(" ", maxsplit=1)[1]
-    .split("{")[1]
-    .split("}")[0]
-    for l in r.stdout.splitlines()
+moving_from = (
+    re.match(".*\\{(.*)\\}.*moving from (.*) to (.*)", l).groups()
+    for l in reversed(r.stdout.splitlines())
     if "moving from" in l
-}
-for h, d in reversed(moving_from.items()):
-    print(d, h)
+)
+
+for (dp, fp, tp), (dn, fn, tn) in pairwise(itertools.chain(moving_from, ((None, None, None),))):
+    print(dp, "—", f"{dn or 'now'}:", f"{tp}{' (' + fn + ')' if fn and fn != tp else ''}")
