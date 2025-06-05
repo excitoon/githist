@@ -7,7 +7,7 @@ with open(f"{os.path.dirname(os.path.abspath(__file__))}/requirements.txt") as r
     with open(f"{os.path.dirname(os.path.abspath(__file__))}/README.md") as readme:
         setuptools.setup(
             name="githist",
-            version="0.0.2",
+            version="0.0.3",
             description="Git branch history storyteller written in Python",
             long_description=readme.read(),
             long_description_content_type="text/markdown",
