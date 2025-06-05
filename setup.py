@@ -1,4 +1,5 @@
 import os
+
 import setuptools
 
 
@@ -6,7 +7,7 @@ with open(f"{os.path.dirname(os.path.abspath(__file__))}/requirements.txt") as r
     with open(f"{os.path.dirname(os.path.abspath(__file__))}/README.md") as readme:
         setuptools.setup(
             name="githist",
-            version="0.0.1",
+            version="0.0.2",
             description="Git branch history storyteller written in Python",
             long_description=readme.read(),
             long_description_content_type="text/markdown",
@@ -34,4 +35,5 @@ with open(f"{os.path.dirname(os.path.abspath(__file__))}/requirements.txt") as r
             packages=[],
             scripts=["githist", "githist.cmd"],
             install_requires=requirements.read().splitlines(),
+            extras_require={"colorist": ["colorist"]},
         )
